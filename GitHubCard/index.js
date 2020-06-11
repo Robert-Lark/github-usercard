@@ -19,16 +19,18 @@
 
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
-    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
+    follow this link in your browser https://api.github.com/users/
+    <Your github name>/followers,
     manually find some other users' github handles, or use the list found at the
     bottom of the page. Get at least 5 different Github usernames and add them as
     Individual strings to the friendsArray below.
 
-    Using that array, iterate over it, requesting data for each user, creating a new card for each
+    Using that array, iterate over it, requesting data for each user, 
+    creating a new card for each
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['robert-lark', 'NaomiRTorres', 'bschatzj', 'AFortune', 'nikolvov', 'micahriley'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -59,19 +61,19 @@ const followersArray = [];
     bigknell
 */
 
-axios
-  .get(`https://api.github.com/users/robert-lark`)
+followersArray.forEach((obj) => {
+  axios
+  .get(`https://api.github.com/users/${obj}`)
   .then((res) => {
     console.log(res);
-    res.data.forEach((url) =>{
-      cards.appendChild(githubIdCards(data.avatar_url, data.name, data.login, data.location, data.followers, data.following, data.bio))
+      cards.appendChild(githubIdCards(res.data.avatar_url, res.data.name, res.data.login, res.data.location, res.data.followers, res.data.following, res.data.bio));
       })
-  })
+
   .catch(err => {
     console.log('oh no!, ', err);
   })
 
-
+  const cards = document.querySelector('.cards');
 
 
 // creating the elements
@@ -111,15 +113,13 @@ newDiv2.appendChild(newP);
 newDiv2.appendChild(newP2);
 newDiv2.appendChild(newP3);
 newDiv2.appendChild(newP4);
-newDiv2.appendChild(newp5);
-newDiv2.appendChild(newp6);
+newDiv2.appendChild(newP5);
+newDiv2.appendChild(newP6);
 
-return githubIdCards;
+return newDiv;
 
 }
+})
 
-const cards = document.querySelector('.cards');
 
-// data.forEach((data) =>{
-// cards.appendChild(githubIdCards(data.avatar_url, data.name, data.login, data.location, data.followers, data.following, data.bio))
-// })
+

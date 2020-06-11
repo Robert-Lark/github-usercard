@@ -58,4 +58,68 @@ const followersArray = [];
     luishrd
     bigknell
 */
+
+axios
+  .get(`https://api.github.com/users/robert-lark`)
+  .then((res) => {
+    console.log(res);
+    res.data.forEach((url) =>{
+      cards.appendChild(githubIdCards(data.avatar_url, data.name, data.login, data.location, data.followers, data.following, data.bio))
+      })
+  })
+  .catch(err => {
+    console.log('oh no!, ', err);
+  })
+
+
+
+
+// creating the elements
+function githubIdCards (avatar_url, name, login, location, followers, following, bio) {
  const newDiv = document.createElement('div');
+ const newImg = document.createElement('img');
+ const newDiv2 = document.createElement('div');
+ const newH3 = document.createElement('h3');
+ const newP = document.createElement('p');
+ const newP2 = document.createElement('p');
+ const newP3 = document.createElement('p');
+ const newP4 = document.createElement('p');
+ const newP5 = document.createElement('p');
+ const newP6 = document.createElement('p');
+ const newA = document.createElement('a');
+
+// styling them
+
+newDiv.classList.add('card');
+newImg.src = avatar_url;
+newDiv2.classList.add = ('card-info');
+newH3.classList.add =('name')
+newH3.textContent = name;
+newP.classList.add('username');
+newP.textContent = login;
+newP2.textContent = `Location: ${location}`;
+newP4.textContent = `Followers: ${followers}`;
+newP5.textContent = `Following: ${following}`;
+newP6.textContent = `Bio: ${bio}`;
+
+//appending
+
+newDiv.appendChild(newImg);
+newDiv.appendChild(newDiv2);
+newDiv2.appendChild(newH3);
+newDiv2.appendChild(newP);
+newDiv2.appendChild(newP2);
+newDiv2.appendChild(newP3);
+newDiv2.appendChild(newP4);
+newDiv2.appendChild(newp5);
+newDiv2.appendChild(newp6);
+
+return githubIdCards;
+
+}
+
+const cards = document.querySelector('.cards');
+
+// data.forEach((data) =>{
+// cards.appendChild(githubIdCards(data.avatar_url, data.name, data.login, data.location, data.followers, data.following, data.bio))
+// })

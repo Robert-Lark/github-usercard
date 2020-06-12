@@ -60,20 +60,29 @@ const followersArray = ['robert-lark', 'NaomiRTorres', 'bschatzj', 'AFortune', '
     luishrd
     bigknell
 */
+const body = document.querySelector('body');
+const cards = document.querySelector('.cards');
 
 followersArray.forEach((obj) => {
   axios
   .get(`https://api.github.com/users/${obj}`)
   .then((res) => {
-    console.log(res);
       cards.appendChild(githubIdCards(res.data.avatar_url, res.data.name, res.data.login, res.data.location, res.data.followers, res.data.following, res.data.bio));
       })
 
   .catch(err => {
     console.log('oh no!, ', err);
   })
+  axios
+  .get(`https://api.github.com/users/robert-lark/followers`)
+  .then((res) => {
+    cards.appendChild(githubIdCards(res.data.avatar_url, res.data.name, res.data.login, res.data.location, res.data.followers, res.data.following, res.data.bio));
+    })
+    .catch(err => {
+      console.log('oh no!, ', err);
+    })
 
-  const cards = document.querySelector('.cards');
+  
 
 
 // creating the elements
@@ -89,6 +98,10 @@ function githubIdCards (avatar_url, name, login, location, followers, following,
  const newP5 = document.createElement('p');
  const newP6 = document.createElement('p');
  const newA = document.createElement('a');
+ const panelButtonsContainer = document.createElement('div');
+ const buttonOpen = document.createElement('button');
+ const buttonClose = document.createElement('button');
+ const contGraph = document.createElement('div');
 
 // styling them
 
@@ -103,6 +116,15 @@ newP2.textContent = `Location: ${location}`;
 newP4.textContent = `Followers: ${followers}`;
 newP5.textContent = `Following: ${following}`;
 newP6.textContent = `Bio: ${bio}`;
+buttonOpen.style = 'cursor: pointer; background: @lightblue; width: 35px; height: 35px; border: none; border-radius: 50%; padding: 5px;'
+buttonClose.style = 'cursor: pointer; background: @lightblue; width: 35px; height: 35px; border: none; border-radius: 50%; padding: 5px;'
+const open = '\u25bc';
+const close = '\u25b2';
+buttonOpen.textContent = open;
+buttonClose.textContent = close;
+contGraph.classList.add('panel-content');
+contGraph.classList.add('calendar');
+
 
 //appending
 
@@ -115,11 +137,23 @@ newDiv2.appendChild(newP3);
 newDiv2.appendChild(newP4);
 newDiv2.appendChild(newP5);
 newDiv2.appendChild(newP6);
+newDiv2.appendChild(panelButtonsContainer);
+newDiv2.appendChild(contGraph);
+panelButtonsContainer.appendChild(buttonOpen);
+panelButtonsContainer.appendChild(buttonClose);
+
+///Event Listener:
+panelButtonsContainer.addEventListener('click', (e) => {
+  buttonOpen.classList.toggle('hide-btn');
+  buttonClose.classList.toggle('hide-btn');
+  contGraph.classList.toggle('toggle-on');
+followersArray.forEach((obj) => {
+  GitHubCalendar(".calendar", "obj");
+})
+});
 
 return newDiv;
 
 }
 })
-
-
 
